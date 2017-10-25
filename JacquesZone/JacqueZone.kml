@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document id="root_doc">
+<Schema name="JacqueZone" id="JacqueZone">
+	<SimpleField name="id" type="string"></SimpleField>
+</Schema>
+<Folder><name>JacqueZone</name>
+  <Placemark>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#JacqueZone">
+		<SimpleData name="id">1</SimpleData>
+	</SchemaData></ExtendedData>
+      <Polygon><altitudeMode>clampToGround</altitudeMode><outerBoundaryIs><LinearRing><altitudeMode>clampToGround</altitudeMode><coordinates>-3.96153697275641,7.24867580769231 -3.37874562339744,7.26536104059829 -3.48004882318376,6.69091230769231 -4.06164837019231,6.6730352724359 -3.96153697275641,7.24867580769231</coordinates></LinearRing></outerBoundaryIs></Polygon>
+  </Placemark>
+</Folder>
+</Document></kml>
