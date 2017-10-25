@@ -118,9 +118,9 @@ shinyServer(function(input, output,session){
   
   # ## transformer les "\"en "/" et forcer la lettre du chemin dans la colonne Path
   liste_command$Path <- gsub("[\\]", "/", liste_command$Path)
-  liste_command$Path <- gsub(str_sub(liste_command[1,2], 1, 3), getwd(), liste_command$Path)
+ # liste_command$Path <- gsub(str_sub(liste_command[1,2], 1, 3), getwd(), liste_command$Path)
   })
-  
+  #salut
   ########################################################################################################
   # taille (size) des images selectionnés
   
