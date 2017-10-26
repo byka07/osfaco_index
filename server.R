@@ -118,13 +118,31 @@ shinyServer(function(input, output,session){
   
   # ## transformer les "\"en "/" et forcer la lettre du chemin dans la colonne Path
   liste_command$Path <- gsub("[\\]", "/", liste_command$Path)
- # liste_command$Path <- gsub(str_sub(liste_command[1,2], 1, 3), getwd(), liste_command$Path)
+  liste_command$Path <- gsub(str_sub(liste_command[1,2], 1, 3), dirname(getwd()), liste_command$Path)
+  liste_command
   })
-  #salut
+  
   ########################################################################################################
   # taille (size) des images selectionnés
-  
-  
+ size <- reactive({
+   liste_command <-liste_command()
+   size <-0
+  for(img in liste_command$Image){
+    dir  <- liste_command[liste_command$Image==img,"Path"]
+    size <- file.size(paste(dir,img, sep="/"))/1000000
+  }
+   size
+ })
+ 
+ ########################################################################################################
+ # afficher la taille des élement selectionnés
+ output$size <- renderText({
+   if (!is.na(size())){
+   paste0("De taille: ",size()," Mo")
+   }else{
+     "SVP!! INSÉREZ LE DISC CONTENANT CES IMAGES"
+   }
+ })
   ########################################################################################################
   # creation de la carte 
   output$map <- renderLeaflet({
@@ -201,6 +219,54 @@ shinyServer(function(input, output,session){
         setView(lng = -5.4267075,lat =6.8153801, zoom = 7)
       }
     }
+  })
+  
+  ########################################################################################################
+  # Copier les images
+  observeEvent(input$copie,{
+    if(!is.na(size()) & !is.null(input$outdir)){
+    # boite de progressions
+    withProgress(
+      message= 'Copie en cours... Ceci peut prend quelques minutes', 
+      value = 0, 
+      {
+        #setProgress(value=1)
+
+    #rappel de la liste de copie
+    liste_command <-liste_command()
+    
+    #chemin de copie
+    req(input$outdir)
+    dirpath <- parseDirPath(roots,input$outdir)
+    
+    n <- 1
+    nb <- nrow(shape_select())
+    
+    #boucle de la copie
+    for(img in liste_command$Image){
+      dir  <- liste_command[liste_command$Image==img,"Path"]
+      file.copy(paste(dir,img, sep="/"),dirpath)
+      
+      incProgress(n/nb, detail = paste(n,"/",nb))
+      n <- n+1
+    
+      Sys.sleep(0.1)
+    }
+    
+      })
+    }else{
+      withProgress(
+        message= 'SVP: CHOISIR LE BON DISC DE DONNÉES ET LE DOSSIER DE COPIE!', 
+        value = 0, 
+        {
+          j <- 1
+          for(j in 1:60){
+          incProgress(j/100)
+          Sys.sleep(0.2)
+          }
+        })
+      
+      }
   })
   
 })

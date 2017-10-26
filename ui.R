@@ -15,6 +15,7 @@ packages(rgdal)
 packages(shinyBS)
 packages(shinyFiles)
 packages(htmltools)
+packages(stringr)
 
 library(shiny)
 library(leaflet)
@@ -23,6 +24,7 @@ library(rgdal)
 library(rgeos)
 library(raster)
 library(shinydashboard)
+library(stringr)
 
 shinyUI(
   
@@ -32,10 +34,8 @@ shinyUI(
     includeCSS("styles.css")#,
     #includeScript("gomap.js")
   ),
-  h5("Application de copie des données OSFACO"),
+  h5("APPLICATION DE COPIE DES DONNÉES OSFACO"),
   leafletOutput("map",height = 900),
-  
-  #leafletOutput("addmap",height = 900),
   
   absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
                 draggable = TRUE, top = 60, left ="auto" , right =20 , bottom = "auto",
